@@ -64,8 +64,7 @@ class EnergyApp {
                 id: 1, 
                 ticker: 'ADANIGREEN.NS', 
                 name: 'Adani Green Energy Ltd', 
-                logo: 'https://logo.clearbit.com/adanigreenenergy.com',
-                fallbackLogo: 'https://via.placeholder.com/80/10b981/ffffff?text=ADANI',
+                logo: 'https://ui-avatars.com/api/?name=Adani+Green&size=80&background=10b981&color=fff&bold=true&font-size=0.4',
                 sector: 'Solar & Wind Power',
                 description: 'India\'s largest renewable energy company with 20+ GW capacity',
                 currentPrice: 1245.50,
@@ -76,8 +75,7 @@ class EnergyApp {
                 id: 2, 
                 ticker: 'TATAPOWER.NS', 
                 name: 'Tata Power Company Ltd', 
-                logo: 'https://logo.clearbit.com/tatapower.com',
-                fallbackLogo: 'https://via.placeholder.com/80/3b82f6/ffffff?text=TATA',
+                logo: 'https://ui-avatars.com/api/?name=Tata+Power&size=80&background=3b82f6&color=fff&bold=true&font-size=0.4',
                 sector: 'Integrated Power & Renewables',
                 description: 'Leading integrated power company with growing renewable portfolio',
                 currentPrice: 385.75,
@@ -88,8 +86,7 @@ class EnergyApp {
                 id: 3, 
                 ticker: 'SUZLON.NS', 
                 name: 'Suzlon Energy Ltd', 
-                logo: 'https://logo.clearbit.com/suzlon.com',
-                fallbackLogo: 'https://via.placeholder.com/80/059669/ffffff?text=SUZLON',
+                logo: 'https://ui-avatars.com/api/?name=Suzlon+Energy&size=80&background=059669&color=fff&bold=true&font-size=0.4',
                 sector: 'Wind Turbine Manufacturing',
                 description: 'India\'s leading wind turbine manufacturer with global presence',
                 currentPrice: 58.30,
@@ -100,8 +97,7 @@ class EnergyApp {
                 id: 4, 
                 ticker: 'NHPC.NS', 
                 name: 'NHPC Ltd', 
-                logo: 'https://logo.clearbit.com/nhpcindia.com',
-                fallbackLogo: 'https://via.placeholder.com/80/0ea5e9/ffffff?text=NHPC',
+                logo: 'https://ui-avatars.com/api/?name=NHPC&size=80&background=0ea5e9&color=fff&bold=true&font-size=0.5',
                 sector: 'Hydroelectric Power',
                 description: 'India\'s premier hydropower development company',
                 currentPrice: 82.15,
@@ -112,8 +108,7 @@ class EnergyApp {
                 id: 5, 
                 ticker: 'SJVN.NS', 
                 name: 'SJVN Ltd', 
-                logo: 'https://logo.clearbit.com/sjvn.nic.in',
-                fallbackLogo: 'https://via.placeholder.com/80/8b5cf6/ffffff?text=SJVN',
+                logo: 'https://ui-avatars.com/api/?name=SJVN&size=80&background=8b5cf6&color=fff&bold=true&font-size=0.5',
                 sector: 'Hydro & Solar Power',
                 description: 'Government-owned renewable energy company focusing on hydro and solar',
                 currentPrice: 115.40,
@@ -124,8 +119,7 @@ class EnergyApp {
                 id: 6, 
                 ticker: 'IREDA.NS', 
                 name: 'Indian Renewable Energy Development Agency', 
-                logo: 'https://logo.clearbit.com/ireda.in',
-                fallbackLogo: 'https://via.placeholder.com/80/f59e0b/ffffff?text=IREDA',
+                logo: 'https://ui-avatars.com/api/?name=IREDA&size=80&background=f59e0b&color=fff&bold=true&font-size=0.5',
                 sector: 'Renewable Energy Financing',
                 description: 'Government financial institution for renewable energy projects',
                 currentPrice: 198.25,
@@ -136,8 +130,7 @@ class EnergyApp {
                 id: 7, 
                 ticker: 'BOROSIL.NS', 
                 name: 'Borosil Renewables Ltd', 
-                logo: 'https://logo.clearbit.com/borosilrenewables.com',
-                fallbackLogo: 'https://via.placeholder.com/80/ec4899/ffffff?text=BOROSIL',
+                logo: 'https://ui-avatars.com/api/?name=Borosil&size=80&background=ec4899&color=fff&bold=true&font-size=0.5',
                 sector: 'Solar Glass Manufacturing',
                 description: 'Leading manufacturer of solar glass for photovoltaic modules',
                 currentPrice: 445.60,
@@ -148,8 +141,7 @@ class EnergyApp {
                 id: 8, 
                 ticker: 'WEBSOL.NS', 
                 name: 'Websol Energy System Ltd', 
-                logo: 'https://logo.clearbit.com/websolenergy.com',
-                fallbackLogo: 'https://via.placeholder.com/80/ef4444/ffffff?text=WEBSOL',
+                logo: 'https://ui-avatars.com/api/?name=Websol&size=80&background=ef4444&color=fff&bold=true&font-size=0.5',
                 sector: 'Solar Cell Manufacturing',
                 description: 'Manufacturer of solar cells and modules',
                 currentPrice: 625.80,
@@ -987,7 +979,6 @@ class EnergyApp {
                     <div class="company-logo">
                         <img src="${stock.logo}" 
                              alt="${stock.name} logo" 
-                             onerror="this.src='${stock.fallbackLogo}'"
                              class="stock-logo-img">
                     </div>
                     <div class="stock-ticker">${stock.ticker}</div>
@@ -1023,7 +1014,6 @@ class EnergyApp {
                 <div class="modal-company-header">
                     <img src="${target.logo}" 
                          alt="${target.name} logo" 
-                         onerror="this.src='${target.fallbackLogo}'"
                          class="modal-company-logo">
                     <div>
                         <h3>${target.name}</h3>
