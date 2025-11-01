@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Energy Savings Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">⚡</span>
+                <span class="brand-name">Energy Saver</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#dashboard" class="nav-link" data-page="dashboard">Dashboard</a>
+                <a href="#bills" class="nav-link" data-page="bills">Bills</a>
+                <a href="#actions" class="nav-link" data-page="actions">Actions</a>
+                <a href="#invest" class="nav-link" data-page="invest">Invest</a>
+                <a href="#profile" class="nav-link" data-page="profile">Profile</a>
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Container -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-card">
+            <h1 class="auth-title">Welcome to Energy Saver</h1>
+            <p class="auth-subtitle">Track your energy savings and make a difference</p>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="auth-switch">Don't have an account? <a href="#" id="showRegister">Register</a></p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form hidden">
+                <h2>Register</h2>
+                <div class="form-group">
+                    <label for="registerFirstName">First Name</label>
+                    <input type="text" id="registerFirstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerLastName">Last Name</label>
+                    <input type="text" id="registerLastName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="electricityRate">Electricity Rate (₹/kWh)</label>
+                    <input type="number" id="electricityRate" step="0.01" value="8.50" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <p class="auth-switch">Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container hidden" id="appContainer">
+        <!-- Dashboard Page -->
+        <div class="page active" id="dashboardPage">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Track your energy savings and environmental impact</p>
+            </div>
+
+            <!-- Streak Display -->
+            <div class="streak-banner">
+                <div class="streak-item">
+                    <span class="streak-icon">🔥</span>
+                    <div>
+                        <div class="streak-count" id="dailyStreak">0</div>
+                        <div class="streak-label">Day Streak</div>
+                    </div>
+                </div>
+                <div class="streak-item">
+                    <span class="streak-icon">⭐</span>
+                    <div>
+                        <div class="streak-count" id="weeklyStreak">0</div>
+                        <div class="streak-label">Week Streak</div>
+                    </div>
+                </div>
+                <div class="streak-item">
+                    <span class="streak-icon">🏆</span>
+                    <div>
+                        <div class="streak-count" id="badgeCount">0</div>
+                        <div class="streak-label">Badges Earned</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works Explanation -->
+            <div class="explanation-card">
+                <h2>💡 How Your Savings Work</h2>
+                <div class="explanation-grid">
+                    <div class="explanation-step">
+                        <div class="step-number">1</div>
+                        <h3>Establish Baseline</h3>
+                        <p>Upload your first 3 electricity bills. We calculate your average consumption.</p>
+                        <div class="example">Example: 310 kWh/month average</div>
+                    </div>
+                    <div class="explanation-step">
+                        <div class="step-number">2</div>
+                        <h3>Take Action</h3>
+                        <p>Log energy-saving actions like turning off lights, unplugging devices, etc.</p>
+                        <div class="example">Actions save 2-3 kWh/day</div>
+                    </div>
+                    <div class="explanation-step">
+                        <div class="step-number">3</div>
+                        <h3>Reduce Consumption</h3>
+                        <p>Your next bill shows lower usage because of your actions.</p>
+                        <div class="example">New bill: 250 kWh (60 kWh saved!)</div>
+                    </div>
+                    <div class="explanation-step">
+                        <div class="step-number">4</div>
+                        <h3>Calculate Savings</h3>
+                        <p>Money saved = Energy saved × Your electricity rate</p>
+                        <div class="example">60 kWh × ₹8.50 = ₹510 saved</div>
+                    </div>
+                    <div class="explanation-step">
+                        <div class="step-number">5</div>
+                        <h3>Invest Savings</h3>
+                        <p>Use your real savings to invest in renewable energy stocks!</p>
+                        <div class="example">₹510 → Buy stocks</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Savings Breakdown -->
+            <div class="savings-breakdown">
+                <h2>📊 Your Savings Breakdown</h2>
+                <div class="breakdown-content" id="savingsBreakdown">
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Your Baseline Consumption:</span>
+                        <span class="breakdown-value" id="baselineValue">Upload 3 bills to establish</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Latest Month Consumption:</span>
+                        <span class="breakdown-value" id="latestConsumption">No data yet</span>
+                    </div>
+                    <div class="breakdown-item highlight">
+                        <span class="breakdown-label">Energy Reduced:</span>
+                        <span class="breakdown-value" id="energyReduced">0 kWh</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Your Electricity Rate:</span>
+                        <span class="breakdown-value" id="userRate">₹8.50/kWh</span>
+                    </div>
+                    <div class="breakdown-item highlight success">
+                        <span class="breakdown-label">💰 Money You Didn't Spend:</span>
+                        <span class="breakdown-value" id="moneySaved">₹0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">💰</div>
+                    <div class="card-content">
+                        <h3>Total Savings</h3>
+                        <div class="card-value" id="totalSavings">₹0.00</div>
+                        <p class="card-subtitle">This month: <span id="monthlySavings">₹0.00</span></p>
+                    </div>
+                </div>
+                <div class="card clickable" onclick="app.showCO2Modal()">
+                    <div class="card-icon">🌱</div>
+                    <div class="card-content">
+                        <h3>CO₂ Saved</h3>
+                        <div class="card-value" id="co2Saved">0 kg</div>
+                        <p class="card-subtitle">Click to learn how</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-content">
+                        <h3>Energy Saved</h3>
+                        <div class="card-value" id="energySaved">0 kWh</div>
+                        <p class="card-subtitle">Total reduction</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <div class="card-content">
+                        <h3>Actions Logged</h3>
+                        <div class="card-value" id="actionsCount">0</div>
+                        <p class="card-subtitle">Keep it up!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="chart-container">
+                <h2>Energy Consumption Trend</h2>
+                <canvas id="consumptionChart"></canvas>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="transactions-section">
+                <h2>Recent Transactions</h2>
+                <div id="recentTransactions" class="transaction-list">
+                    <p class="empty-state">No transactions yet. Start investing your savings!</p>
+                </div>
+            </div>
+
+            <!-- CO2 Impact Visualization -->
+            <div class="co2-impact-section">
+                <h2>🌍 Your Environmental Impact</h2>
+                <div class="co2-visual-grid">
+                    <div class="co2-visual-card">
+                        <h3>Trees Equivalent</h3>
+                        <div class="tree-visual" id="treeVisual">
+                            <!-- Trees will be added by JavaScript -->
+                        </div>
+                        <p class="visual-caption" id="treeCaption">Plant trees by saving energy!</p>
+                    </div>
+                    <div class="co2-visual-card">
+                        <h3>Car Kilometers Avoided</h3>
+                        <div class="car-visual">
+                            <div class="car-icon">🚗</div>
+                            <div class="car-distance" id="carDistance">0 km</div>
+                        </div>
+                        <p class="visual-caption">Equivalent driving distance prevented</p>
+                    </div>
+                    <div class="co2-visual-card">
+                        <h3>Coal Not Burned</h3>
+                        <div class="coal-visual">
+                            <div class="coal-icon">🔥</div>
+                            <div class="coal-amount" id="coalAmount">0 kg</div>
+                        </div>
+                        <p class="visual-caption">Coal saved from burning</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badges Gallery -->
+            <div class="badges-section">
+                <h2>Your Badges</h2>
+                <div id="badgesGallery" class="badges-grid"></div>
+            </div>
+        </div>
+
+        <!-- Bills Page -->
+        <div class="page" id="billsPage">
+            <div class="page-header">
+                <h1>Electricity Bills</h1>
+                <p>Upload and manage your electricity bills</p>
+            </div>
+
+            <!-- Bills Info Banner -->
+            <div class="info-banner">
+                <div class="info-icon">ℹ️</div>
+                <div class="info-content">
+                    <h3>Why Upload Bills?</h3>
+                    <p><strong>First 3 bills</strong> establish your baseline consumption. <strong>Subsequent bills</strong> show your savings!</p>
+                    <p class="info-formula">Savings = (Baseline - Current Usage) × Your Rate</p>
+                </div>
+            </div>
+
+            <div class="bills-actions">
+                <button class="btn btn-primary" id="showUploadBill">Upload Bill</button>
+                <button class="btn btn-secondary" id="showManualBill">Enter Manually</button>
+            </div>
+
+            <!-- Upload Bill Form -->
+            <div class="form-card hidden" id="uploadBillForm">
+                <h3>Upload Bill</h3>
+                <form id="billUploadForm">
+                    <div class="form-group">
+                        <label for="billFile">Bill Document (PDF/Image)</label>
+                        <input type="file" id="billFile" accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadBillingStart">Billing Period Start</label>
+                        <input type="date" id="uploadBillingStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadBillingEnd">Billing Period End</label>
+                        <input type="date" id="uploadBillingEnd" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadConsumption">Consumption (kWh)</label>
+                        <input type="number" id="uploadConsumption" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadCost">Total Cost (₹)</label>
+                        <input type="number" id="uploadCost" step="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="button" class="btn btn-secondary" id="cancelUpload">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Manual Bill Form -->
+            <div class="form-card hidden" id="manualBillForm">
+                <h3>Enter Bill Manually</h3>
+                <form id="billManualForm">
+                    <div class="form-group">
+                        <label for="manualBillingStart">Billing Period Start</label>
+                        <input type="date" id="manualBillingStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="manualBillingEnd">Billing Period End</label>
+                        <input type="date" id="manualBillingEnd" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="manualConsumption">Consumption (kWh)</label>
+                        <input type="number" id="manualConsumption" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="manualCost">Total Cost (₹)</label>
+                        <input type="number" id="manualCost" step="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" id="cancelManual">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bills List -->
+            <div class="bills-list" id="billsList">
+                <h3>Your Bills</h3>
+                <div id="billsContainer"></div>
+            </div>
+        </div>
+
+        <!-- Actions Page -->
+        <div class="page" id="actionsPage">
+            <div class="page-header">
+                <h1>Energy-Saving Actions</h1>
+                <p>Log your daily actions to track your impact</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3>Quick Log</h3>
+                <div class="action-buttons" id="quickActions"></div>
+            </div>
+
+            <!-- Custom Action Form -->
+            <div class="form-card">
+                <h3>Log Custom Action</h3>
+                <form id="customActionForm">
+                    <div class="form-group">
+                        <label for="actionType">Action Type</label>
+                        <input type="text" id="actionType" placeholder="e.g., Turned off lights" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="actionDescription">Description</label>
+                        <textarea id="actionDescription" rows="3" placeholder="Optional details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="actionImpact">Estimated Impact (kWh)</label>
+                        <input type="number" id="actionImpact" step="0.01" value="0.5">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Log Action</button>
+                </form>
+            </div>
+
+            <!-- Actions Timeline -->
+            <div class="timeline-section">
+                <h3>Your Actions Timeline</h3>
+                <div id="actionsTimeline" class="timeline"></div>
+            </div>
+        </div>
+
+        <!-- Invest Page -->
+        <div class="page" id="investPage">
+            <div class="page-header">
+                <h1>Invest Your Savings</h1>
+                <p>Invest in stocks of renewable energy companies</p>
+            </div>
+
+            <!-- Investment Explanation -->
+            <div class="investment-explanation">
+                <h3>💡 Where Does This Money Come From?</h3>
+                <div class="explanation-flow">
+                    <div class="flow-item">
+                        <div class="flow-icon">⚡</div>
+                        <p>You reduce energy consumption</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">
+                        <div class="flow-icon">💵</div>
+                        <p>Your electricity bill is lower</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">
+                        <div class="flow-icon">💰</div>
+                        <p>Money you didn't spend = Savings</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">
+                        <div class="flow-icon">📈</div>
+                        <p>Invest in renewable stocks!</p>
+                    </div>
+                </div>
+                <p class="explanation-note">
+                    <strong>Example:</strong> If you usually spend ₹2,500/month on electricity but only spent ₹2,000 this month, 
+                    you have ₹500 in real savings to invest!
+                </p>
+            </div>
+
+            <div class="available-balance">
+                <h3>Available Balance: <span id="availableBalance">₹0.00</span></h3>
+                <p class="balance-subtitle">This is real money you saved by reducing energy consumption</p>
+            </div>
+
+            <!-- Stock Investment Section -->
+            <div class="stocks-section">
+                <h2>Renewable Energy Stocks</h2>
+                <p class="section-subtitle">Invest your energy savings in publicly traded renewable energy companies</p>
+                <div class="projects-grid" id="stocksGrid"></div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page" id="profilePage">
+            <div class="page-header">
+                <h1>Profile</h1>
+                <p>Manage your account settings</p>
+            </div>
+
+            <div class="profile-card">
+                <h3>Account Information</h3>
+                <div class="profile-info" id="profileInfo"></div>
+            </div>
+
+            <div class="profile-card">
+                <h3>Statistics</h3>
+                <div class="stats-grid" id="profileStats"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Modal -->
+    <div class="modal hidden" id="transactionModal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <h2 id="modalTitle">Confirm Transaction</h2>
+            <div id="modalBody"></div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="confirmTransaction">Confirm Payment</button>
+                <button class="btn btn-secondary" id="cancelTransaction">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast hidden" id="toast"></div>
+
+    <!-- CO2 Explanation Modal -->
+    <div class="modal hidden" id="co2Modal">
+        <div class="modal-content tutorial-modal">
+            <span class="modal-close" onclick="app.closeCO2Modal()">&times;</span>
+            <h2>🌍 How CO₂ Savings Work</h2>
+            <div class="tutorial-content">
+                <div class="co2-explanation">
+                    <h3>The Connection: Electricity → CO₂</h3>
+                    <p>In India, most electricity comes from burning fossil fuels (mainly coal). When power plants generate electricity, they release CO₂ into the atmosphere.</p>
+                    
+                    <div class="co2-formula-box">
+                        <h4>India's Grid Emission Factor:</h4>
+                        <div class="big-formula">1 kWh = 0.92 kg CO₂</div>
+                        <p>This means every unit of electricity you consume releases nearly 1 kg of CO₂!</p>
+                    </div>
+
+                    <h3>How You Save CO₂:</h3>
+                    <div class="co2-steps">
+                        <div class="co2-step">
+                            <div class="co2-step-icon">⚡</div>
+                            <div class="co2-step-content">
+                                <h4>You Reduce Consumption</h4>
+                                <p>By saving 60 kWh of electricity...</p>
+                            </div>
+                        </div>
+                        <div class="co2-arrow">↓</div>
+                        <div class="co2-step">
+                            <div class="co2-step-icon">🏭</div>
+                            <div class="co2-step-content">
+                                <h4>Power Plant Burns Less Coal</h4>
+                                <p>The grid needs to generate 60 kWh less electricity...</p>
+                            </div>
+                        </div>
+                        <div class="co2-arrow">↓</div>
+                        <div class="co2-step">
+                            <div class="co2-step-icon">🌱</div>
+                            <div class="co2-step-content">
+                                <h4>Less CO₂ Released</h4>
+                                <p>60 kWh × 0.92 = 55.2 kg CO₂ NOT released!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="co2-comparison">
+                        <h3>📊 What Does Your CO₂ Savings Mean?</h3>
+                        <div id="co2Comparisons" class="comparison-grid">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="co2-impact">
+                        <h3>🌳 Real-World Impact</h3>
+                        <div class="impact-grid">
+                            <div class="impact-item">
+                                <div class="impact-value">1 tree</div>
+                                <div class="impact-label">absorbs ~20 kg CO₂/year</div>
+                            </div>
+                            <div class="impact-item">
+                                <div class="impact-value">1 car</div>
+                                <div class="impact-label">emits ~2,400 kg CO₂/year</div>
+                            </div>
+                            <div class="impact-item">
+                                <div class="impact-value">100 kg CO₂</div>
+                                <div class="impact-label">= 5 trees planted</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="co2-sources">
+                        <h3>⚡ India's Electricity Sources</h3>
+                        <div class="sources-list">
+                            <div class="source-item">
+                                <span class="source-icon">🔥</span>
+                                <span class="source-name">Coal</span>
+                                <span class="source-percent">~70%</span>
+                            </div>
+                            <div class="source-item">
+                                <span class="source-icon">🛢️</span>
+                                <span class="source-name">Natural Gas</span>
+                                <span class="source-percent">~5%</span>
+                            </div>
+                            <div class="source-item">
+                                <span class="source-icon">💧</span>
+                                <span class="source-name">Hydro</span>
+                                <span class="source-percent">~10%</span>
+                            </div>
+                            <div class="source-item">
+                                <span class="source-icon">☀️</span>
+                                <span class="source-name">Solar & Wind</span>
+                                <span class="source-percent">~12%</span>
+                            </div>
+                            <div class="source-item">
+                                <span class="source-icon">⚛️</span>
+                                <span class="source-name">Nuclear</span>
+                                <span class="source-percent">~3%</span>
+                            </div>
+                        </div>
+                        <p class="sources-note">Since 70% comes from coal, reducing consumption directly reduces coal burning!</p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="app.closeCO2Modal()">Got It!</button>
+        </div>
+    </div>
+
+    <!-- Welcome Tutorial Modal -->
+    <div class="modal hidden" id="welcomeModal">
+        <div class="modal-content tutorial-modal">
+            <span class="modal-close" id="closeWelcome">&times;</span>
+            <h2>🎉 Welcome to Energy Saver!</h2>
+            <div class="tutorial-content">
+                <h3>How Does This Work?</h3>
+                <div class="tutorial-steps">
+                    <div class="tutorial-step">
+                        <div class="tutorial-number">1️⃣</div>
+                        <h4>Upload Your Bills</h4>
+                        <p>Add your first 3 electricity bills. We'll calculate your average consumption (baseline).</p>
+                    </div>
+                    <div class="tutorial-step">
+                        <div class="tutorial-number">2️⃣</div>
+                        <h4>Take Energy-Saving Actions</h4>
+                        <p>Turn off lights, unplug devices, use AC wisely. Log these actions in the app.</p>
+                    </div>
+                    <div class="tutorial-step">
+                        <div class="tutorial-number">3️⃣</div>
+                        <h4>See Your Savings</h4>
+                        <p>When your next bill is lower, we calculate: <strong>(Baseline - New Usage) × Your Rate = ₹ Saved</strong></p>
+                    </div>
+                    <div class="tutorial-step">
+                        <div class="tutorial-number">4️⃣</div>
+                        <h4>Invest Your Savings</h4>
+                        <p>The money you didn't spend on electricity can be invested in renewable energy stocks!</p>
+                    </div>
+                </div>
+                <div class="tutorial-example">
+                    <h4>📊 Real Example:</h4>
+                    <p><strong>Baseline:</strong> 300 kWh/month (₹2,550 @ ₹8.50/kWh)</p>
+                    <p><strong>After Actions:</strong> 250 kWh/month (₹2,125)</p>
+                    <p><strong>Your Savings:</strong> 50 kWh = <span class="highlight-amount">₹425 saved!</span></p>
+                    <p>This ₹425 is real money you can now invest! 🚀</p>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-block" id="startJourney">Start My Energy Saving Journey!</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/chart.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
