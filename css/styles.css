@@ -851,6 +851,25 @@ body {
     margin-bottom: 1rem;
 }
 
+.company-logo {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+    box-shadow: var(--shadow);
+}
+
+.stock-logo-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 0.5rem;
+}
+
 .stock-ticker {
     background: var(--primary-color);
     color: var(--white);
@@ -907,7 +926,26 @@ body {
     font-weight: bold;
     font-family: monospace;
     display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.modal-company-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--light-gray);
+}
+
+.modal-company-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: var(--white);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    box-shadow: var(--shadow);
 }
 
 .total-amount {
