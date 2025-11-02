@@ -1,19 +1,19 @@
-# ⚡ Urban Energy Savings Platform
+# Urban Energy Savings Platform
 
 > Track your energy consumption, save money, reduce CO₂ emissions, and invest in renewable energy stocks!
 
 A user-friendly web platform that empowers urban residents to track energy savings, convert saved money into stock investments in renewable energy companies, and stay motivated through an interactive gamification system.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/yourusername/urban-energy-savings-platform)
+[![Made with Love](https://img.shields.io/badge/Made%20with--red.svg)](https://github.com/yourusername/urban-energy-savings-platform)
 
 ![Platform Screenshot](https://via.placeholder.com/800x400/667eea/ffffff?text=Energy+Saver+Platform)
 
-## 🌟 Key Features
+## Key Features
 
 ## Features
 
-### ✅ Implemented Features
+###  Implemented Features
 
 1. **User Authentication**
    - Registration with email/password
@@ -75,7 +75,7 @@ A user-friendly web platform that empowers urban residents to track energy savin
 - **Currency**: Indian Rupees (₹) - Optimized for Indian market
 - **Electricity Rates**: Based on typical Indian residential rates (₹6-10/kWh)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -142,12 +142,12 @@ Simply double-click `index.html` to open in your browser (some features may requ
 ### Gamification Elements
 
 **Badges:**
-- 🌱 First Step - Log your first action
-- ⚡ Week Warrior - Achieve 7-day streak
-- 💡 Energy Saver - Save 50 kWh
-- 💰 Green Investor - Make first investment
-- 🏆 Eco Champion - Save 100 kg CO₂
-- 👑 Consistency King - Achieve 30-day streak
+- First Step - Log your first action
+- Week Warrior - Achieve 7-day streak
+- Energy Saver - Save 50 kWh
+- Green Investor - Make first investment
+- Eco Champion - Save 100 kg CO₂
+- Consistency King - Achieve 30-day streak
 
 **Streaks:**
 - Daily streak for consecutive days of action logging
@@ -269,7 +269,7 @@ This is a demo application using LocalStorage. For production use, you would nee
 - Community features
 - Leaderboards
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 urban-energy-savings-platform/
@@ -288,7 +288,7 @@ urban-energy-savings-platform/
 └── .gitignore           # Git ignore rules
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Here's how you can help:
 
@@ -305,7 +305,7 @@ Contributions are welcome! Here's how you can help:
 - Update documentation as needed
 - Keep commits atomic and well-described
 
-## 🐛 Bug Reports
+##Bug Reports
 
 Found a bug? Please open an issue with:
 - Clear description of the problem
@@ -313,7 +313,7 @@ Found a bug? Please open an issue with:
 - Expected vs actual behavior
 - Screenshots if applicable
 
-## 📝 License
+##License
 
 This project is licensed under the MIT License - see below for details:
 
@@ -341,24 +341,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Chart.js for beautiful data visualization
 - Indian renewable energy companies for inspiration
 - All contributors and users
 
-## 📧 Contact
+##Contact
 
 For questions or suggestions:
 - Open an issue on GitHub
-- Email: your.email@example.com
+- Email:reeddhijitdeb@gmail.com
 
-## 🌟 Star History
+##Star History
 
-If you find this project useful, please consider giving it a star! ⭐
+If you find this project useful, please consider giving it a star!
 
 ---
 
-**Built with ❤️ for a sustainable future 🌍**
+**Built with for a sustainable future **
 
-**Making energy conservation profitable and fun!** 💚⚡💰
+**Making energy conservation profitable and fun!** 

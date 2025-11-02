@@ -84,20 +84,24 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 2rem;
+    padding: 1rem;
+    overflow-y: auto;
 }
 
 .auth-card {
     background: var(--white);
     border-radius: 1rem;
-    padding: 3rem;
+    padding: 2rem;
     max-width: 500px;
     width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: var(--shadow-lg);
+    margin: auto;
 }
 
 .auth-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
     margin-bottom: 0.5rem;
     text-align: center;
     color: var(--primary-color);
@@ -106,18 +110,21 @@ body {
 .auth-subtitle {
     text-align: center;
     color: var(--gray);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
 }
 
 .auth-form h2 {
     margin-bottom: 1.5rem;
     color: var(--dark);
+    font-size: 1.5rem;
 }
 
 .auth-switch {
     text-align: center;
     margin-top: 1rem;
     color: var(--gray);
+    font-size: 0.9rem;
 }
 
 .auth-switch a {
@@ -209,31 +216,35 @@ body {
 
 /* Forms */
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     font-weight: 600;
     color: var(--dark);
+    font-size: 0.95rem;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.7rem;
     border: 2px solid var(--light-gray);
     border-radius: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: border-color 0.3s;
+    box-sizing: border-box;
 }
 
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
     outline: none;
     border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 .form-actions {
@@ -1577,4 +1588,153 @@ body {
     font-size: 0.85rem;
     color: var(--gray);
     margin-top: 0.5rem;
+}
+
+/* Responsive Design for Auth Pages */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 0.5rem;
+        align-items: flex-start;
+        padding-top: 2rem;
+    }
+
+    .auth-card {
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        max-height: none;
+    }
+
+    .auth-title {
+        font-size: 1.5rem;
+    }
+
+    .auth-subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+
+    .auth-form h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        padding: 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+
+    .nav-link {
+        text-align: center;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 0.25rem;
+        padding-top: 1rem;
+    }
+
+    .auth-card {
+        padding: 1.25rem;
+        border-radius: 0.5rem;
+    }
+
+    .auth-title {
+        font-size: 1.35rem;
+    }
+
+    .auth-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .auth-form h2 {
+        font-size: 1.15rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.85rem;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .form-group input {
+        padding: 0.55rem;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.55rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .auth-switch {
+        font-size: 0.85rem;
+    }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+    .auth-container {
+        align-items: flex-start;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .auth-card {
+        max-height: 85vh;
+        overflow-y: auto;
+        margin: 0 auto;
+    }
+
+    .auth-title {
+        font-size: 1.25rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .auth-subtitle {
+        font-size: 0.8rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .auth-form h2 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.75rem;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .form-group input {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
 }
