@@ -41,9 +41,8 @@ class EnergyApp {
         if (!localStorage.getItem('badges')) {
             this.initializeBadges();
         }
-        if (!localStorage.getItem('stocks')) {
-            this.initializeStocks();
-        }
+        // Always reinitialize stocks to ensure latest logos
+        this.initializeStocks();
     }
 
     initializeBadges() {
