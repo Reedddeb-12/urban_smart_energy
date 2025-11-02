@@ -1,0 +1,6 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#ec4899" rx="20"/>
+  <rect x="70" y="60" width="60" height="50" fill="white" opacity="0.3" rx="5"/>
+  <text x="100" y="135" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="white" text-anchor="middle">BOROSIL</text>
+  <text x="100" y="165" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle">RENEWABLES</text>
+</svg>

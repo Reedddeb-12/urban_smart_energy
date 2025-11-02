@@ -1,0 +1,7 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#f59e0b" rx="20"/>
+  <circle cx="100" cy="75" r="20" fill="white" opacity="0.3"/>
+  <text x="100" y="130" font-family="Arial, sans-serif" font-size="44" font-weight="bold" fill="white" text-anchor="middle">IREDA</text>
+  <text x="100" y="160" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">RENEWABLE ENERGY</text>
+  <text x="100" y="178" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">DEVELOPMENT AGENCY</text>
+</svg>

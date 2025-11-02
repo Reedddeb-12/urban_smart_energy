@@ -1,0 +1,7 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#ef4444" rx="20"/>
+  <circle cx="100" cy="70" r="30" fill="white" opacity="0.3"/>
+  <circle cx="100" cy="70" r="20" fill="white" opacity="0.5"/>
+  <text x="100" y="140" font-family="Arial, sans-serif" font-size="38" font-weight="bold" fill="white" text-anchor="middle">WEBSOL</text>
+  <text x="100" y="170" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle">ENERGY SYSTEMS</text>
+</svg>

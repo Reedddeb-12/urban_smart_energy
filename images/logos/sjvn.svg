@@ -1,0 +1,6 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#8b5cf6" rx="20"/>
+  <polygon points="100,50 120,90 80,90" fill="white" opacity="0.3"/>
+  <text x="100" y="135" font-family="Arial, sans-serif" font-size="52" font-weight="bold" fill="white" text-anchor="middle">SJVN</text>
+  <text x="100" y="170" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">LIMITED</text>
+</svg>
