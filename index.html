@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urban Energy Savings Platform</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=2.0">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-brand">
-                <span class="logo">⚡</span>
+                <span class="logo"></span>
                 <span class="brand-name">Energy Saver</span>
             </div>
             <div class="nav-menu" id="navMenu">
@@ -30,7 +32,7 @@
         <div class="auth-card">
             <h1 class="auth-title">Welcome to Energy Saver</h1>
             <p class="auth-subtitle">Track your energy savings and make a difference</p>
-            
+
             <!-- Login Form -->
             <form id="loginForm" class="auth-form">
                 <h2>Login</h2>
@@ -209,6 +211,23 @@
                 </div>
             </div>
 
+            <!-- AI Suggestions Section -->
+            <div class="ai-suggestions-section">
+                <div class="ai-header">
+                    <div class="ai-icon">🤖</div>
+                    <div>
+                        <h2>AI-Powered Energy Insights</h2>
+                        <p class="ai-subtitle">Personalized recommendations based on your consumption patterns</p>
+                    </div>
+                </div>
+                <div id="aiSuggestions" class="suggestions-grid">
+                    <!-- AI suggestions will be populated here -->
+                </div>
+                <button class="btn btn-secondary" id="refreshSuggestions">
+                    <span>🔄</span> Refresh Suggestions
+                </button>
+            </div>
+
             <!-- Chart -->
             <div class="chart-container">
                 <h2>Energy Consumption Trend</h2>
@@ -272,7 +291,8 @@
                 <div class="info-icon">ℹ️</div>
                 <div class="info-content">
                     <h3>Why Upload Bills?</h3>
-                    <p><strong>First 3 bills</strong> establish your baseline consumption. <strong>Subsequent bills</strong> show your savings!</p>
+                    <p><strong>First 3 bills</strong> establish your baseline consumption. <strong>Subsequent
+                            bills</strong> show your savings!</p>
                     <p class="info-formula">Savings = (Baseline - Current Usage) × Your Rate</p>
                 </div>
             </div>
@@ -419,7 +439,8 @@
                     </div>
                 </div>
                 <p class="explanation-note">
-                    <strong>Example:</strong> If you usually spend ₹2,500/month on electricity but only spent ₹2,000 this month, 
+                    <strong>Example:</strong> If you usually spend ₹2,500/month on electricity but only spent ₹2,000
+                    this month,
                     you have ₹500 in real savings to invest!
                 </p>
             </div>
@@ -480,8 +501,9 @@
             <div class="tutorial-content">
                 <div class="co2-explanation">
                     <h3>The Connection: Electricity → CO₂</h3>
-                    <p>In India, most electricity comes from burning fossil fuels (mainly coal). When power plants generate electricity, they release CO₂ into the atmosphere.</p>
-                    
+                    <p>In India, most electricity comes from burning fossil fuels (mainly coal). When power plants
+                        generate electricity, they release CO₂ into the atmosphere.</p>
+
                     <div class="co2-formula-box">
                         <h4>India's Grid Emission Factor:</h4>
                         <div class="big-formula">1 kWh = 0.92 kg CO₂</div>
@@ -569,7 +591,8 @@
                                 <span class="source-percent">~3%</span>
                             </div>
                         </div>
-                        <p class="sources-note">Since 70% comes from coal, reducing consumption directly reduces coal burning!</p>
+                        <p class="sources-note">Since 70% comes from coal, reducing consumption directly reduces coal
+                            burning!</p>
                     </div>
                 </div>
             </div>
@@ -598,7 +621,8 @@
                     <div class="tutorial-step">
                         <div class="tutorial-number">3️⃣</div>
                         <h4>See Your Savings</h4>
-                        <p>When your next bill is lower, we calculate: <strong>(Baseline - New Usage) × Your Rate = ₹ Saved</strong></p>
+                        <p>When your next bill is lower, we calculate: <strong>(Baseline - New Usage) × Your Rate = ₹
+                                Saved</strong></p>
                     </div>
                     <div class="tutorial-step">
                         <div class="tutorial-number">4️⃣</div>
@@ -622,4 +646,5 @@
     <script src="js/chart.min.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>
