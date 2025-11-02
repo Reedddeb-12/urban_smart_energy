@@ -5,10 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urban Energy Savings Platform</title>
-    <link rel="stylesheet" href="css/styles.css?v=2.0">
+    <link rel="stylesheet" href="./css/styles.css?v=3.0">
+    <style>
+        /* Fallback styles to ensure page is visible */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .loading-check { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            background: #ef4444; 
+            color: white; 
+            padding: 10px; 
+            text-align: center; 
+            z-index: 99999;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- CSS Loading Check -->
+    <div class="loading-check" id="cssCheck">⚠️ CSS not loaded! Hard refresh (Ctrl+Shift+R) to fix.</div>
+    
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -643,8 +662,27 @@
     </div>
 
     <!-- Scripts -->
-    <script src="js/chart.min.js"></script>
-    <script src="js/app.js"></script>
+    <script>
+        // Check if CSS loaded
+        window.addEventListener('load', function() {
+            const testEl = document.createElement('div');
+            testEl.className = 'btn btn-primary';
+            testEl.style.display = 'none';
+            document.body.appendChild(testEl);
+            const styles = window.getComputedStyle(testEl);
+            const hasCss = styles.background !== 'rgba(0, 0, 0, 0)' && styles.background !== 'transparent';
+            document.body.removeChild(testEl);
+            
+            if (!hasCss) {
+                document.getElementById('cssCheck').style.display = 'block';
+                console.error('❌ CSS failed to load! Check network tab.');
+            } else {
+                console.log('✅ CSS loaded successfully');
+            }
+        });
+    </script>
+    <script src="./js/chart.min.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 
 </html>
