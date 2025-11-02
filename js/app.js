@@ -215,6 +215,9 @@ class EnergyApp {
         // Welcome modal listeners
         document.getElementById('closeWelcome')?.addEventListener('click', () => this.closeWelcomeModal());
         document.getElementById('startJourney')?.addEventListener('click', () => this.closeWelcomeModal());
+
+        // AI Suggestions listeners
+        document.getElementById('refreshSuggestions')?.addEventListener('click', () => this.generateAISuggestions());
     }
 
     // Authentication Methods
@@ -460,6 +463,7 @@ class EnergyApp {
     loadDashboard() {
         this.updateStreaks();
         this.updateSummaryCards();
+        this.generateAISuggestions();
         this.loadChart();
         this.loadRecentTransactions();
         this.loadBadges();
@@ -1177,3 +1181,589 @@ class EnergyApp {
 
 // Initialize app
 const app = new EnergyApp();
+
+
+    // AI Suggestions Feature
+    generateAISuggestions() {
+        const container = document.getElementById('aiSuggestions');
+        
+        // Show loading state
+        container.innerHTML = '<div class="ai-loading"><div class="ai-loading-spinner"></div><p>AI analyzing your energy patterns...</p></div>';
+
+        // Simulate AI processing
+        setTimeout(() => {
+            const suggestions = this.analyzeAndGenerateSuggestions();
+            this.displaySuggestions(suggestions);
+        }, 1500);
+    }
+
+    analyzeAndGenerateSuggestions() {
+        const bills = JSON.parse(localStorage.getItem('bills') || '[]');
+        const userBills = bills.filter(b => b.userId === this.currentUser.id);
+        const actions = this.getUserActions();
+        const savings = this.calculateTotalSavings();
+        const streaks = JSON.parse(localStorage.getItem('streaks') || '[]');
+        const userStreak = streaks.find(s => s.userId === this.currentUser.id) || { daily: 0, weekly: 0 };
+        const badges = this.getUserBadges();
+        const energySaved = this.calculateEnergySaved();
+        const co2Saved = energySaved * 0.92;
+
+        const suggestions = [];
+        let suggestionId = 1;
+
+        // 1. CONSUMPTION ANALYSIS
+        if (userBills.length >= 3) {
+            const recentBills = userBills.slice(-3);
+            const avgConsumption = recentBills.reduce((sum, b) => sum + b.consumption, 0) / recentBills.length;
+            const trend = this.calculateTrend(recentBills);
+            const baseline = this.calculateBaseline();
+
+            // High consumption alert
+            if (avgConsumption > 300) {
+                const savingsPotential = avgConsumption * 0.15;
+                suggestions.push({
+                    id: suggestionId++,
+                    type: 'consumption',
+                    icon: '🌡️',
+                    priority: 'high',
+                    title: 'High Energy Consumption Detected',
+                    description: `Your average consumption is ${avgConsumption.toFixed(0)} kWh/month. Setting AC to 24°C can reduce usage by 15%.`,
+                    potentialSavings: savingsPotential * this.currentUser.electricityRate,
+                    potentialCO2: savingsPotential * 0.92,
+                    action: 'Log AC Adjustment',
+                    actionType: 'log'
+                });
+            }
+
+            // Increasing trend warning
+            if (trend === 'increasing') {
+                const lastTwo = userBills.slice(-2);
+                const increase = lastTwo[1].consumption - lastTwo[0].consumption;
+                suggestions.push({
+                    id: suggestionId++,
+                    type: 'consumption',
+                    icon: '📈',
+                    priority: 'high',
+                    title: 'Energy Usage Increasing',
+                    description: `Your consumption increased from ${lastTwo[0].consumption} to ${lastTwo[1].consumption} kWh. Review your recent habits.`,
+                    potentialSavings: increase * this.currentUser.electricityRate,
+                    potentialCO2: increase * 0.92,
+                    action: 'View Actions',
+                    actionType: 'navigate',
+                    navigateTo: 'actions'
+                });
+            }
+
+            // Decreasing trend - positive reinforcement
+            if (trend === 'decreasing') {
+                suggestions.push({
+                    id: suggestionId++,
+                    type: 'behavioral',
+                    icon: '🎉',
+                    priority: 'low',
+                    title: 'Excellent Progress!',
+                    description: 'Your consumption is decreasing! You\'re making a real difference. Keep up the amazing work!',
+                    potentialSavings: 0,
+                    potentialCO2: 0,
+                    action: 'Dismiss',
+                    actionType: 'dismiss'
+                });
+            }
+
+            // Above baseline warning
+            if (baseline > 0 && userBills.length > 3) {
+                const latestConsumption = userBills[userBills.length - 1].consumption;
+                if (latestConsumption > baseline * 1.1) {
+                    const excess = latestConsumption - baseline;
+                    suggestions.push({
+                        id: suggestionId++,
+                        type: 'consumption',
+                        icon: '⚠️',
+                        priority: 'high',
+                        title: 'Above Your Baseline',
+                        description: `Your latest bill (${latestConsumption} kWh) is ${excess.toFixed(0)} kWh above your baseline. Let's get back on track!`,
+                        potentialSavings: excess * this.currentUser.electricityRate,
+                        potentialCO2: excess * 0.92,
+                        action: 'Review Tips',
+                        actionType: 'dismiss'
+                    });
+                }
+            }
+        }
+
+        // 2. ACTION PATTERN ANALYSIS
+        const recentActions = actions.slice(-7); // Last 7 days
+        const actionTypes = recentActions.map(a => a.actionType);
+        const today = new Date().toDateString();
+        const todayActions = actions.filter(a => new Date(a.timestamp).toDateString() === today);
+
+        // Missing AC optimization
+        if (!actionTypes.includes('Adjusted thermostat') && !actionTypes.includes('Adjusted AC')) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'action',
+                icon: '❄️',
+                priority: 'medium',
+                title: 'Optimize AC Usage',
+                description: 'You haven\'t logged any thermostat adjustments recently. Setting your AC to 24-25°C can save 30-40% on cooling costs.',
+                potentialSavings: 35 * this.currentUser.electricityRate,
+                potentialCO2: 35 * 0.92,
+                action: 'Log AC Adjustment',
+                actionType: 'log'
+            });
+        }
+
+        // Missing air-drying action
+        if (!actionTypes.includes('Air-dried clothes')) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'action',
+                icon: '👕',
+                priority: 'medium',
+                title: 'Skip the Dryer',
+                description: 'Air-drying clothes saves significant energy. Dryers are one of the highest energy consumers in homes.',
+                potentialSavings: 60 * this.currentUser.electricityRate,
+                potentialCO2: 60 * 0.92,
+                action: 'Log Air-Drying',
+                actionType: 'log'
+            });
+        }
+
+        // Missing unplugging action
+        if (!actionTypes.includes('Unplugged devices')) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'action',
+                icon: '🔌',
+                priority: 'medium',
+                title: 'Phantom Power Drain Alert',
+                description: 'Devices on standby consume 5-10% of electricity. Unplug chargers, TVs, and appliances when not in use.',
+                potentialSavings: 25 * this.currentUser.electricityRate,
+                potentialCO2: 25 * 0.92,
+                action: 'Log Unplugging',
+                actionType: 'log'
+            });
+        }
+
+        // No actions today
+        if (todayActions.length === 0 && userStreak.daily > 0) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'behavioral',
+                icon: '⏰',
+                priority: 'high',
+                title: 'Don\'t Break Your Streak!',
+                description: `You have a ${userStreak.daily}-day streak! Log at least one action today to keep it going.`,
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'Log Action Now',
+                actionType: 'navigate',
+                navigateTo: 'actions'
+            });
+        }
+
+        // 3. TIME-BASED CONTEXTUAL SUGGESTIONS
+        const currentHour = new Date().getHours();
+        const currentMonth = new Date().getMonth();
+        
+        // Daytime natural light suggestion
+        if (currentHour >= 9 && currentHour <= 17) {
+            const hasNaturalLightToday = todayActions.some(a => 
+                a.actionType.toLowerCase().includes('natural light') || 
+                a.actionType.toLowerCase().includes('turned off lights')
+            );
+            
+            if (!hasNaturalLightToday) {
+                suggestions.push({
+                    id: suggestionId++,
+                    type: 'time',
+                    icon: '🌞',
+                    priority: 'medium',
+                    title: 'Use Natural Light',
+                    description: 'It\'s daytime! Open curtains and turn off unnecessary lights. Natural light is free and better for your health.',
+                    potentialSavings: 12 * this.currentUser.electricityRate,
+                    potentialCO2: 12 * 0.92,
+                    action: 'Log Natural Light Use',
+                    actionType: 'log'
+                });
+            }
+        }
+
+        // Evening energy-saving tip
+        if (currentHour >= 18 && currentHour <= 22) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'time',
+                icon: '🌙',
+                priority: 'low',
+                title: 'Evening Energy Tip',
+                description: 'Use LED bulbs and turn off lights in unoccupied rooms. Consider using task lighting instead of overhead lights.',
+                potentialSavings: 8 * this.currentUser.electricityRate,
+                potentialCO2: 8 * 0.92,
+                action: 'Dismiss',
+                actionType: 'dismiss'
+            });
+        }
+
+        // Peak hours warning (if applicable)
+        if (currentHour >= 18 && currentHour <= 21) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'time',
+                icon: '⚡',
+                priority: 'medium',
+                title: 'Peak Hours Alert',
+                description: 'This is peak electricity demand time. Avoid using high-power appliances like washing machines, dryers, and dishwashers.',
+                potentialSavings: 20 * this.currentUser.electricityRate,
+                potentialCO2: 20 * 0.92,
+                action: 'Dismiss',
+                actionType: 'dismiss'
+            });
+        }
+
+        // 4. STREAK & BEHAVIORAL MOTIVATION
+        const weekWarriorBadge = badges.find(b => b.name === 'Week Warrior');
+        const consistencyKingBadge = badges.find(b => b.name === 'Consistency King');
+
+        // Start streak motivation
+        if (userStreak.daily === 0) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'behavioral',
+                icon: '🔥',
+                priority: 'high',
+                title: 'Start Your Streak Today!',
+                description: 'You don\'t have an active streak. Log an action today to start building consistency and earn badges!',
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'Log Action Now',
+                actionType: 'navigate',
+                navigateTo: 'actions'
+            });
+        }
+
+        // Week Warrior badge progress
+        if (userStreak.daily >= 6 && userStreak.daily < 7 && !weekWarriorBadge?.earned) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'behavioral',
+                icon: '⚡',
+                priority: 'high',
+                title: 'One Day to Week Warrior!',
+                description: `You're at ${userStreak.daily} days! Log an action today to reach 7 days and earn the Week Warrior badge!`,
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'Log Action',
+                actionType: 'navigate',
+                navigateTo: 'actions'
+            });
+        }
+
+        // Consistency King progress
+        if (userStreak.daily >= 25 && userStreak.daily < 30 && !consistencyKingBadge?.earned) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'behavioral',
+                icon: '👑',
+                priority: 'medium',
+                title: 'Almost Consistency King!',
+                description: `Amazing! ${userStreak.daily}-day streak. Just ${30 - userStreak.daily} more days to earn the ultimate Consistency King badge!`,
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'Keep Going!',
+                actionType: 'dismiss'
+            });
+        }
+
+        // Weekly streak milestone
+        if (userStreak.weekly >= 3 && userStreak.weekly < 4) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'behavioral',
+                icon: '🌟',
+                priority: 'low',
+                title: 'Weekly Streak Champion!',
+                description: `You've maintained ${userStreak.weekly} consecutive weeks! You're building lasting habits.`,
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'Dismiss',
+                actionType: 'dismiss'
+            });
+        }
+
+        // 5. BADGE PROGRESS ALERTS
+        const energySaverBadge = badges.find(b => b.name === 'Energy Saver');
+        const ecoChampionBadge = badges.find(b => b.name === 'Eco Champion');
+        const greenInvestorBadge = badges.find(b => b.name === 'Green Investor');
+
+        // Energy Saver badge (50 kWh)
+        if (!energySaverBadge?.earned && energySaved >= 45 && energySaved < 50) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'behavioral',
+                icon: '💡',
+                priority: 'low',
+                title: 'Almost Energy Saver!',
+                description: `You've saved ${energySaved.toFixed(1)} kWh. Just ${(50 - energySaved).toFixed(1)} more kWh to earn the Energy Saver badge!`,
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'View Progress',
+                actionType: 'dismiss'
+            });
+        }
+
+        // Eco Champion badge (100 kg CO₂)
+        if (!ecoChampionBadge?.earned && co2Saved >= 90 && co2Saved < 100) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'behavioral',
+                icon: '🏆',
+                priority: 'low',
+                title: 'Almost Eco Champion!',
+                description: `You've saved ${co2Saved.toFixed(1)} kg CO₂. Just ${(100 - co2Saved).toFixed(1)} kg more to earn the Eco Champion badge!`,
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'View Progress',
+                actionType: 'dismiss'
+            });
+        }
+
+        // 6. INVESTMENT OPPORTUNITIES
+        const investmentCount = this.getInvestmentCount();
+        
+        // First investment suggestion
+        if (savings.total >= 1000 && investmentCount === 0 && !greenInvestorBadge?.earned) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'investment',
+                icon: '💰',
+                priority: 'medium',
+                title: 'Ready to Invest!',
+                description: `You have ₹${savings.total.toFixed(0)} in savings. Make your first investment in renewable energy stocks to earn the Green Investor badge!`,
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'View Stocks',
+                actionType: 'navigate',
+                navigateTo: 'invest'
+            });
+        }
+
+        // Reinvestment suggestion
+        if (savings.total >= 500 && investmentCount > 0) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'investment',
+                icon: '📈',
+                priority: 'low',
+                title: 'Grow Your Portfolio',
+                description: `You have ₹${savings.total.toFixed(0)} available. Consider diversifying your renewable energy investments.`,
+                potentialSavings: 0,
+                potentialCO2: 0,
+                action: 'View Stocks',
+                actionType: 'navigate',
+                navigateTo: 'invest'
+            });
+        }
+
+        // 7. SEASONAL ENERGY TIPS
+        // Summer months (April-September)
+        if (currentMonth >= 3 && currentMonth <= 8) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'seasonal',
+                icon: '☀️',
+                priority: 'medium',
+                title: 'Summer Energy Saving Tips',
+                description: 'Use fans instead of AC when possible. Fans use 98% less energy. Close curtains during peak sun hours.',
+                potentialSavings: 50 * this.currentUser.electricityRate,
+                potentialCO2: 50 * 0.92,
+                action: 'Log Summer Action',
+                actionType: 'log'
+            });
+        }
+
+        // Winter months (October-March)
+        if (currentMonth >= 9 || currentMonth <= 2) {
+            suggestions.push({
+                id: suggestionId++,
+                type: 'seasonal',
+                icon: '🧥',
+                priority: 'low',
+                title: 'Winter Energy Saving Tips',
+                description: 'Use natural sunlight for warmth during the day. Wear layers instead of using heaters excessively.',
+                potentialSavings: 30 * this.currentUser.electricityRate,
+                potentialCO2: 30 * 0.92,
+                action: 'Dismiss',
+                actionType: 'dismiss'
+            });
+        }
+
+        // 8. SORT BY PRIORITY AND RETURN TOP 5
+        const priorityOrder = { high: 1, medium: 2, low: 3 };
+        suggestions.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+        
+        return suggestions.slice(0, 5);
+    }
+
+    calculateTrend(bills) {
+        if (bills.length < 2) return 'stable';
+        const first = bills[0].consumption;
+        const last = bills[bills.length - 1].consumption;
+        const change = ((last - first) / first) * 100;
+        
+        if (change > 5) return 'increasing';
+        if (change < -5) return 'decreasing';
+        return 'stable';
+    }
+
+    getInvestmentCount() {
+        const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+        return transactions.filter(t => t.userId === this.currentUser.id && t.type === 'stock').length;
+    }
+
+    calculateEnergySaved() {
+        const bills = JSON.parse(localStorage.getItem('bills') || '[]');
+        const userBills = bills.filter(b => b.userId === this.currentUser.id);
+        
+        if (userBills.length < 4) return 0;
+        
+        const baseline = this.calculateBaseline();
+        if (baseline === 0) return 0;
+        
+        let totalSaved = 0;
+        userBills.slice(3).forEach(bill => {
+            const saved = baseline - bill.consumption;
+            if (saved > 0) totalSaved += saved;
+        });
+        
+        return totalSaved;
+    }
+
+    getUserBadges() {
+        const badges = JSON.parse(localStorage.getItem('badges') || '[]');
+        return badges.filter(b => b.userId === this.currentUser.id);
+    }
+
+    displaySuggestions(suggestions) {
+        const container = document.getElementById('aiSuggestions');
+        
+        if (suggestions.length === 0) {
+            container.innerHTML = `
+                <div class="ai-empty-state">
+                    <div class="ai-empty-icon">🌟</div>
+                    <h3>You're Doing Great!</h3>
+                    <p>No new suggestions right now. You're already following best practices. Keep up the excellent work!</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = suggestions.map(suggestion => {
+            const priorityEmoji = {
+                high: '🔴',
+                medium: '🟡',
+                low: '🟢'
+            };
+
+            return `
+                <div class="suggestion-card priority-${suggestion.priority}" data-suggestion-id="${suggestion.id}">
+                    <div class="suggestion-header">
+                        <div class="suggestion-icon">${suggestion.icon}</div>
+                        <div style="flex: 1;">
+                            <span class="suggestion-priority priority-${suggestion.priority}">
+                                ${priorityEmoji[suggestion.priority]} ${suggestion.priority.toUpperCase()} PRIORITY
+                            </span>
+                            <h3 class="suggestion-title">${suggestion.title}</h3>
+                        </div>
+                    </div>
+                    <p class="suggestion-description">${suggestion.description}</p>
+                    ${suggestion.potentialSavings > 0 ? `
+                        <div class="suggestion-impact">
+                            <div class="impact-item">
+                                <span class="impact-icon">💰</span>
+                                <div>
+                                    <div class="impact-label">Potential Savings</div>
+                                    <div class="impact-value">₹${suggestion.potentialSavings.toFixed(0)}/month</div>
+                                </div>
+                            </div>
+                            <div class="impact-item">
+                                <span class="impact-icon">🌱</span>
+                                <div>
+                                    <div class="impact-label">CO₂ Reduction</div>
+                                    <div class="impact-value">${suggestion.potentialCO2.toFixed(1)} kg/month</div>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                    <div class="suggestion-actions">
+                        ${suggestion.actionType !== 'dismiss' ? `
+                            <button class="btn-implement" onclick="app.implementSuggestion(${suggestion.id}, '${suggestion.action}', '${suggestion.actionType}', '${suggestion.navigateTo || ''}')">
+                                ${suggestion.action}
+                            </button>
+                        ` : ''}
+                        <button class="btn-dismiss" onclick="app.dismissSuggestion(${suggestion.id})">
+                            ${suggestion.actionType === 'dismiss' ? 'Got It' : 'Dismiss'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    implementSuggestion(id, action, actionType, navigateTo) {
+        // Handle navigation actions
+        if (actionType === 'navigate' && navigateTo) {
+            this.navigateTo(navigateTo);
+            this.showToast(`Navigating to ${navigateTo}...`, 'success');
+            this.dismissSuggestion(id);
+            return;
+        }
+
+        // Handle log actions
+        if (actionType === 'log') {
+            const actionMap = {
+                'Log AC Adjustment': { type: 'Adjusted thermostat', impact: 1.2, desc: 'Set AC to optimal temperature (AI suggestion)' },
+                'Log Air-Drying': { type: 'Air-dried clothes', impact: 2.0, desc: 'Air-dried clothes instead of using dryer (AI suggestion)' },
+                'Log Unplugging': { type: 'Unplugged devices', impact: 0.3, desc: 'Unplugged devices to eliminate phantom power (AI suggestion)' },
+                'Log Natural Light Use': { type: 'Used natural light', impact: 0.4, desc: 'Used natural light instead of electric lights (AI suggestion)' },
+                'Log Summer Action': { type: 'Summer energy saving', impact: 1.5, desc: 'Implemented summer energy saving tips (AI suggestion)' },
+                'Log Action Now': { type: 'Energy saving action', impact: 0.5, desc: 'Logged action to maintain streak (AI suggestion)' }
+            };
+
+            const actionData = actionMap[action];
+            if (actionData) {
+                this.saveAction({
+                    actionType: actionData.type,
+                    description: actionData.desc,
+                    estimatedImpact: actionData.impact
+                });
+                this.updateStreakOnAction();
+                this.checkAndAwardBadges();
+                this.showToast(`✅ Action logged: ${actionData.type}!`, 'success');
+                
+                // Remove the suggestion card with animation
+                const card = document.querySelector(`[data-suggestion-id="${id}"]`);
+                if (card) {
+                    card.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => {
+                        this.dismissSuggestion(id);
+                        this.loadActionsTimeline();
+                        this.updateDashboard();
+                    }, 300);
+                }
+            }
+            return;
+        }
+
+        // Handle dismiss actions
+        if (actionType === 'dismiss') {
+            this.showToast('Keep up the great work! 🌟', 'success');
+            this.dismissSuggestion(id);
+            return;
+        }
+    }
+
+    dismissSuggestion(id) {
+        // Remove suggestion from display
+        this.generateAISuggestions();
+    }
