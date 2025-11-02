@@ -1767,3 +1767,10 @@ const app = new EnergyApp();
         // Remove suggestion from display
         this.generateAISuggestions();
     }
+}
+
+// Initialize the app when DOM is loaded
+let app;
+document.addEventListener('DOMContentLoaded', () => {
+    app = new EnergyApp();
+});
