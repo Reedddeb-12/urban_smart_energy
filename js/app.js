@@ -1177,11 +1177,6 @@ class EnergyApp {
             toast.classList.add('hidden');
         }, 3000);
     }
-}
-
-// Initialize app
-const app = new EnergyApp();
-
 
     // AI Suggestions Feature
     generateAISuggestions() {
