@@ -305,7 +305,7 @@ Contributions are welcome! Here's how you can help:
 - Update documentation as needed
 - Keep commits atomic and well-described
 
-## 🐛 Bug Reports
+##Bug Reports
 
 Found a bug? Please open an issue with:
 - Clear description of the problem
@@ -313,7 +313,7 @@ Found a bug? Please open an issue with:
 - Expected vs actual behavior
 - Screenshots if applicable
 
-## 📝 License
+##License
 
 This project is licensed under the MIT License - see below for details:
 
@@ -341,24 +341,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Chart.js for beautiful data visualization
 - Indian renewable energy companies for inspiration
 - All contributors and users
 
-## 📧 Contact
+##Contact
 
 For questions or suggestions:
 - Open an issue on GitHub
-- Email: your.email@example.com
+- Email:reeddhijitdeb@gmail.com
 
-## 🌟 Star History
+##Star History
 
-If you find this project useful, please consider giving it a star! ⭐
+If you find this project useful, please consider giving it a star!
 
 ---
 
-**Built with ❤️ for a sustainable future 🌍**
+**Built with for a sustainable future **
 
-**Making energy conservation profitable and fun!** 💚⚡💰
+**Making energy conservation profitable and fun!** 
